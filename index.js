@@ -55,6 +55,20 @@ app.get(`/characters`, async (req, res) => {
   }
 });
 
+// Route: /character/:characterId
+app.get(`/character/:characterId`, async (req, res) => {
+  const { characterId } = req.params;
+  console.log(characterId);
+  try {
+    const response = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/character/${characterId}?apiKey=${process.env.MARVEL_API_KEY}`
+    );
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 // prise en compte des autres routes
 app.all(`*`, (req, res) => {
   res.status(404).json({ message: `Page not found` });
