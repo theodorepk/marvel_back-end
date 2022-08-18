@@ -1,9 +1,10 @@
 require(`dotenv`).config();
 const express = require("express");
 const app = express();
+const cors = require(`cors`);
 const comicsRoutes = require(`./routes/comics`);
 const charactersRoutes = require(`./routes/characters`);
-app.use(comicsRoutes, charactersRoutes);
+app.use(comicsRoutes, charactersRoutes, cors());
 
 //Just some test MUST CHANGE
 app.get(`/`, (req, res) => {
