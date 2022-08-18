@@ -14,14 +14,12 @@ app.get(`/`, (req, res) => {
 // Route: /comics
 // It ask the Reacteur Marvel API with query parameters. Only limit, skip and title parameters will be send to the /comic route from Marvel API
 app.get(`/comics`, async (req, res) => {
-  const { limit, skip, title } = req.query; // Store the request on const variable with destructuring method
+  const { limit = 50, skip = 0, title = `` } = req.query; // Store the request on const variable with destructuring method (if variable doesn't exist asign it default values)
   try {
     const response = await axios.get(
       `https://lereacteur-marvel-api.herokuapp.com/comics?apiKey=${
         process.env.MARVEL_API_KEY //.env marvel api key doesn't push to gitHub (cf Gitignore)
-      }&title=${title ? title : ``}&limit=${limit ? limit : ``}&skip=${
-        skip && skip //Ternary avoid to send undefined variable to /comics route, send empty string instead
-      }`
+      }&title=${title}&limit=${limit}&skip=${skip}`
     );
     res.status(200).json(response.data);
   } catch (error) {
@@ -31,20 +29,24 @@ app.get(`/comics`, async (req, res) => {
 });
 
 // Route: /comics/:characterId
-
-app.get(`/comics/:charactersId`);
-
-// Route: /characters
-
-app.get(`/characters`, async (req, res) => {
-  const { limit, skip, name } = req.query;
+app.get(`/comics/:characterId`, async (req, res) => {
+  const { characterId } = req.params;
   try {
     const response = await axios.get(
-      `https://lereacteur-marvel-api.herokuapp.com/characters?apiKey=${
-        process.env.MARVEL_API_KEY
-      }&name=${name ? name : ``}&limit=${limit ? limit : ``}&skip=${
-        skip ? skip : `` //Ternary avoid to send undefined variable to /comics route, send empty string instead
-      }`
+      `https://lereacteur-marvel-api.herokuapp.com/comics/${characterId}?apiKey=${process.env.MARVEL_API_KEY}`
+    );
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// Route: /characters
+app.get(`/characters`, async (req, res) => {
+  const { limit = 50, skip = 0, name = `` } = req.query;
+  try {
+    const response = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/characters?apiKey=${process.env.MARVEL_API_KEY}&name=${name}&limit=${limit}&skip=${skip}`
     );
     res.status(200).json(response.data);
   } catch (error) {
