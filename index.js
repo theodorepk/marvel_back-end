@@ -4,11 +4,10 @@ const app = express();
 const cors = require(`cors`);
 const comicsRoutes = require(`./routes/comics`);
 const charactersRoutes = require(`./routes/characters`);
-app.use(comicsRoutes, charactersRoutes, cors());
+app.use(cors(), comicsRoutes, charactersRoutes);
 
 //Just some test MUST CHANGE
 app.get(`/`, (req, res) => {
-  console.log(req.query);
   res.json({ message: "Hi" });
 });
 
@@ -17,6 +16,6 @@ app.all(`*`, (req, res) => {
   res.status(404).json({ message: `Page not found` });
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3001, () => {
   console.log(`Marvel's server running`);
 });
