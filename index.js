@@ -16,6 +16,6 @@ app.all(`*`, (req, res) => {
   res.status(404).json({ message: `Page not found` });
 });
 
-app.listen(process.env.PORT || 3001, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Marvel's server running`);
 });
