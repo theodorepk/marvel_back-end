@@ -8,7 +8,7 @@ app.use(cors(), comicsRoutes, charactersRoutes);
 
 //Just some test MUST CHANGE
 app.get(`/`, (req, res) => {
-  res.json({ message: "Hi" });
+  res.json({ message: "Welcome to TPK's Marvel Back-end" });
 });
 
 // prise en compte des autres routes

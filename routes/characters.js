@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Route: /characters
 router.get(`/characters`, async (req, res) => {
-  const { limit = 50, skip = 0, name = `` } = req.query;
+  const { limit = 100, skip = 0, name = `` } = req.query;
   try {
     const response = await axios.get(
       `https://lereacteur-marvel-api.herokuapp.com/characters?apiKey=${process.env.MARVEL_API_KEY}&name=${name}&limit=${limit}&skip=${skip}`
